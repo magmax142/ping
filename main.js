@@ -1,0 +1,45 @@
+function preload() {
+	world_start = loadSound("world_start.wav");
+	mario_jump=loadSound("jump.wav");
+	mario_coin=loadSound("coin.wav");
+	mario_kick=loadSound("kick.wav");
+	mario_death=loadSound("mariodie.wav");
+	mario_gameOver=loadSound("gameover.wav")
+	setSprites();
+	MarioAnimation();
+}
+
+function setup() {
+	canvas = createCanvas(1240,336);
+	instializeInSetup(mario);
+	canvas.parent("myCanvas");
+
+	video=createCapture(VIDEO);
+	video.size(600,400);
+	video.parent("myVideo")
+    posenet=ml5.poseNet(video,modelLoaded)
+
+}
+
+function modelLoaded(){
+	console.log("model loaded successfully")
+	posenet.on("pose",getResults);
+}
+
+function getResults(results){
+    if(results.length>0){
+		console.log(results)
+		noseX=results[0].pose.nose.x;
+		noseY=results[0].pose.nose.y;
+	}
+}
+
+function draw() {
+	game()
+}
+
+
+
+
+
+
